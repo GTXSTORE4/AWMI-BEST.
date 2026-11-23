@@ -1,146 +1,158 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#101812">
-<title>يومي الأفضل</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>يومي المنظّم</title>
 <style>
-:root{color-scheme:dark;--bg:#0b100d;--panel:#151d18;--line:#2a3930;--muted:#a9b8ad;--green:#4ac477;--blue:#8fc4ff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f5faf6;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;padding:env(safe-area-inset-top) 15px calc(28px + env(safe-area-inset-bottom))}
-main{max-width:680px;margin:auto}.hero{padding:24px 4px 12px}.hero h1{font-size:29px;margin:0 0 7px}.hero p{margin:0;color:var(--muted);line-height:1.7}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:17px;margin:13px 0}
-h2{font-size:19px;margin:0 0 13px}.sub{color:var(--muted);font-size:13px;line-height:1.7}
-.topline{display:flex;align-items:center;justify-content:space-between;gap:10px}.pill{font-size:13px;color:var(--blue);background:#152638;padding:6px 10px;border-radius:20px}
-.progress{height:9px;background:#303a33;border-radius:20px;overflow:hidden;margin:13px 0 5px}.bar{height:100%;background:var(--green);width:0;transition:.2s}
-.task{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:16px;line-height:1.5}.task:last-child{border:0}
-.task input{appearance:none;flex:none;width:24px;height:24px;margin:1px 0 0;border:2px solid #718077;border-radius:50%}
-.task input:checked{background:var(--green);border-color:var(--green);position:relative}.task input:checked:after{content:"✓";position:absolute;inset:0;text-align:center;line-height:20px;color:#07140b;font-weight:800}
-.task:has(input:checked) span{color:#a4b0a8;text-decoration:line-through}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stat{background:#101712;border:1px solid var(--line);border-radius:14px;padding:12px}.stat b{display:block;font-size:20px;margin-top:4px}
-button,input,select{font:inherit}button{background:#24342a;border:1px solid #405747;color:white;border-radius:12px;padding:11px 14px;cursor:pointer}
-button.primary{background:#246b40;border-color:#246b40;width:100%;margin-top:10px}
-button.small{padding:8px 13px}.counter{display:flex;align-items:center;justify-content:center;gap:20px;margin:10px 0}.counter strong{font-size:32px;min-width:48px;text-align:center}.counter button{width:46px;height:44px;font-size:22px;padding:0}
-.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}.field input,.field select{width:100%;background:#0d140f;color:white;border:1px solid var(--line);border-radius:10px;padding:11px}
-.dayrow{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}.dayrow:last-child{border:0}
-details summary{cursor:pointer;font-weight:700;padding:4px 0 12px}.schedule{display:grid;gap:10px}.slot{display:grid;grid-template-columns:105px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}.time{color:var(--blue);font-weight:700}
-nav{display:flex;gap:7px;overflow:auto;padding:5px 0 12px}nav a{white-space:nowrap;text-decoration:none;color:#dce9df;background:#18231c;border:1px solid var(--line);padding:8px 12px;border-radius:20px;font-size:13px}
-footer{text-align:center;color:#829187;font-size:12px;line-height:1.7;margin:18px 0}
-@media(max-width:420px){.fields{grid-template-columns:1fr}.slot{grid-template-columns:88px 1fr}}
+*{box-sizing:border-box}
+body{margin:0;padding:18px;background:#101827;color:#fff;font-family:Arial,sans-serif}
+.container{max-width:650px;margin:auto}
+h1{text-align:center;color:#62d6a5}
+.card{background:#1c293b;padding:17px;margin:14px 0;border-radius:15px}
+h2{font-size:19px;color:#62d6a5;margin-top:0}
+label{display:flex;align-items:center;gap:10px;margin:13px 0}
+input[type=checkbox]{width:20px;height:20px;accent-color:#62d6a5}
+input[type=number],input[type=text],input[type=date]{width:100%;padding:12px;border:0;border-radius:9px;margin:7px 0;background:#eef2f7;color:#111;font-size:16px}
+button{padding:12px 18px;border:0;border-radius:9px;background:#62d6a5;color:#102033;font-weight:bold;margin:5px;cursor:pointer}
+.result{font-size:20px;color:#62d6a5;font-weight:bold}
+.small{color:#b8c5d6;font-size:13px}
 </style>
 </head>
 <body>
-<main>
-<header class="hero">
- <div class="topline"><div><h1>يومي الأفضل 💪</h1><p id="date"></p></div><span class="pill" id="percent">0% إنجاز</span></div>
- <p>خطوة صغيرة كل يوم: صلاة، صحة، رياضة، تعلم، ونوم أفضل.</p>
-</header>
-<nav><a href="#today">مهام اليوم</a><a href="#routine">جدولي</a><a href="#health">الصحة والتدخين</a><a href="#learning">التعلم</a><a href="#history">سجلي</a></nav>
+<div class="container">
+<h1>🌟 يومي المنظّم</h1>
+<p style="text-align:center">نظّم يومك وراقب تطوّرك كل يوم</p>
 
-<section class="card" id="today">
- <div class="topline"><h2>متابعة عاداتك اليومية</h2><span class="pill"><b id="done">0</b>/<span id="total">0</span></span></div>
- <div class="progress"><div class="bar" id="bar"></div></div>
- <div class="sub">ضع علامة عند إنجاز المهمة. الصلاة تُسجّل حسب أوقاتها المحلية.</div>
- <div id="tasks"></div>
-</section>
+<div class="card">
+<h2>📅 التاريخ</h2>
+<input type="date" id="date">
+</div>
 
-<section class="card" id="routine">
- <h2>جدولك اليومي المقترح</h2>
- <div class="schedule">
-  <div class="slot"><span class="time">07:00–08:00</span><span>استيقاظ، صلاة الفجر حسب وقتها، فطور، نظافة واستعداد للعمل.</span></div>
-  <div class="slot"><span class="time">09:00–18:00</span><span>العمل في الشونطي، مع شرب الماء ووجبة الغداء والصلاة في وقتها.</span></div>
-  <div class="slot"><span class="time">18:00–19:00</span><span>العودة، الاستحمام، تغيير الملابس، الصلاة والعشاء.</span></div>
-  <div class="slot"><span class="time">19:00–20:15</span><span>النادي في أيام التدريب الأربعة، أو مشي وراحة في الأيام الأخرى.</span></div>
-  <div class="slot"><span class="time">20:15–21:00</span><span>وجبة بعد التمرين وراحة.</span></div>
-  <div class="slot"><span class="time">21:00–21:45</span><span>تعلم مهارة جديدة لمدة 30–45 دقيقة.</span></div>
-  <div class="slot"><span class="time">21:45–22:45</span><span>وقت حر للأصدقاء أو الخروج أو الراحة.</span></div>
-  <div class="slot"><span class="time">22:45–23:30</span><span>تنظيف الأسنان، تجهيز ملابس الغد، إبعاد الهاتف والاستعداد للنوم.</span></div>
- </div>
- <p class="sub">هذا جدول هدف قابل للتعديل. أوقات الصلاة تتبع توقيت مدينتك، ولا تؤخر الصلاة من أجل الجدول. إذا تعذّر النادي بعد العمل، انقل التمرين إلى وقت مناسب.</p>
-</section>
+<div class="card">
+<h2>🕌 الصلوات</h2>
+<div id="prayers">
+<label><input type="checkbox"> الفجر</label>
+<label><input type="checkbox"> الظهر</label>
+<label><input type="checkbox"> العصر</label>
+<label><input type="checkbox"> المغرب</label>
+<label><input type="checkbox"> العشاء</label>
+</div>
+</div>
 
-<section class="card">
- <h2>خطة النادي – 4 أيام</h2>
- <div class="dayrow"><span>اليوم 1</span><b>صدر + ترايسبس</b></div>
- <div class="dayrow"><span>اليوم 2</span><b>ظهر + بايسبس</b></div>
- <div class="dayrow"><span>اليوم 3</span><b>أرجل + بطن</b></div>
- <div class="dayrow"><span>اليوم 4</span><b>أكتاف + تمارين عامة</b></div>
- <p class="sub">وزّع الأيام مع يوم راحة بين الحصص قدر الإمكان. لأن عملك بدني، خفف التمرين إذا كنت مرهقاً أو لديك ألم.</p>
-</section>
+<div class="card">
+<h2>💪 الصحة والعناية بالنفس</h2>
+<div id="health">
+<label><input type="checkbox"> الرياضة أو النادي</label>
+<label><input type="checkbox"> الاستحمام</label>
+<label><input type="checkbox"> تنظيف الأسنان</label>
+<label><input type="checkbox"> شرب الماء</label>
+<label><input type="checkbox"> أكل صحي</label>
+</div>
+</div>
 
-<section class="card" id="learning">
- <h2>خطة التعلم بالتدريج</h2>
- <div class="dayrow"><span>الشهر الأول</span><b>Software وصيانة الهواتف</b></div>
- <div class="dayrow"><span>الشهر الثاني</span><b>البرمجة وتطوير المواقع</b></div>
- <div class="dayrow"><span>الشهر الثالث</span><b>التجارة الإلكترونية وتطوير GTX STORE</b></div>
- <p class="sub">ابدأ بـ30 دقيقة يومياً. اختر درساً واحداً ودوّن ما تعلمته؛ لا تحاول تعلم كل المجالات في يوم واحد.</p>
- <div class="field"><label for="learnnote">ماذا تعلمت اليوم؟</label><input id="learnnote" placeholder="اكتب درساً أو مهارة تعلمتها"></div>
- <button class="primary" id="savenote">حفظ ملاحظة التعلم</button>
- <p class="sub" id="notestatus"></p>
-</section>
+<div class="card">
+<h2>📚 التعلّم وتطوير المهارات</h2>
+<label><input type="checkbox"> تعلمت شيئاً جديداً</label>
+<input type="text" placeholder="ما المهارة التي تعلمتها اليوم؟" id="skill">
+</div>
 
-<section class="card" id="health">
- <h2>متابعة التدخين</h2>
- <p class="sub">سجّل العدد الحقيقي كل يوم دون لوم نفسك. هدفنا فهم عادتك ثم تقليلها وصولاً للإقلاع.</p>
- <div class="counter"><button id="minus" aria-label="إنقاص">−</button><div><strong id="smokes">0</strong><div class="sub">سيجارة اليوم</div></div><button id="plus" aria-label="زيادة">+</button></div>
- <div class="fields">
-  <div class="field"><label for="target">هدفك اليومي (اختياري)</label><input id="target" type="number" min="0" max="60" placeholder="ضع هدفاً واقعياً"></div>
-  <div class="field"><label for="bed">وقت النوم</label><input id="bed" type="time"></div>
-  <div class="field"><label for="wake">وقت الاستيقاظ</label><input id="wake" type="time"></div>
-  <div class="field"><label for="water">أكواب الماء</label><input id="water" type="number" min="0" max="30" placeholder="مثلاً 6"></div>
- </div>
- <p class="sub">إذا كنت تدخن 20 سيجارة أو أكثر، اسأل طبيباً أو صيدلياً عن دعم الإقلاع وبدائل النيكوتين المناسبة لك. لا يلزم أن تواجه ذلك وحدك.</p>
- <button class="primary" id="savehealth">حفظ بيانات الصحة</button><p class="sub" id="healthstatus"></p>
-</section>
+<div class="card">
+<h2>💼 العمل</h2>
+<label><input type="checkbox"> أنهيت العمل قبل الساعة 18:00</label>
+<label><input type="checkbox"> أنهيت العمل بعد الساعة 18:00</label>
+</div>
 
-<section class="card">
- <h2>النظافة والعناية الشخصية</h2>
- <div class="sub">العادات التالية موجودة أيضاً ضمن قائمة اليوم:</div>
- <div class="dayrow"><span>بعد العمل</span><b>استحمام وتغيير الملابس</b></div>
- <div class="dayrow"><span>صباحاً ومساءً</span><b>تنظيف الأسنان</b></div>
- <div class="dayrow"><span>كل يوم</span><b>ملابس نظيفة وترتيب الأغراض</b></div>
- <div class="dayrow"><span>طوال اليوم</span><b>ماء ووجبات متوازنة</b></div>
-</section>
+<div class="card">
+<h2>🚬 تقليل التدخين</h2>
+<label>عدد السجائر اليوم:</label>
+<input type="number" id="cigarettes" min="0" placeholder="مثلاً 20">
+<p class="small">سجّل العدد يومياً لمتابعة انخفاضه.</p>
+</div>
 
-<section class="card" id="history">
- <h2>سجل آخر 7 أيام</h2><div id="historylist"></div>
- <p class="sub">تُحفظ البيانات على هذا الجهاز وفي هذا المتصفح. لا تمسح بيانات الموقع أو المتصفح إذا أردت الاحتفاظ بسجلك.</p>
-</section>
-<button class="primary" id="reset">إعادة ضبط علامات اليوم فقط</button>
-<footer>هذا المنظم يساعدك على متابعة عاداتك، ولا يرسل بياناتك إلى أي جهة. اجعل التقدم تدريجياً وواقعياً.</footer>
-</main>
+<div class="card">
+<h2>⏰ النوم والاستيقاظ</h2>
+<label><input type="checkbox"> استيقظت قبل 09:00</label>
+<label><input type="checkbox"> استيقظت بعد 09:00</label>
+<label><input type="checkbox"> وصلت إلى المنزل قبل 23:00</label>
+<label><input type="checkbox"> وصلت إلى المنزل بعد 23:00</label>
+<label><input type="checkbox"> نمت قبل منتصف الليل</label>
+<label><input type="checkbox"> نمت بعد منتصف الليل</label>
+</div>
+
+<div class="card">
+<h2>💰 المصاريف والأرباح (دج)</h2>
+<label>المبلغ الذي كسبته اليوم:</label>
+<input type="number" id="income" min="0" placeholder="0">
+<label>المبلغ الذي صرفته اليوم:</label>
+<input type="number" id="expenses" min="0" placeholder="0">
+<p>المتبقي: <span class="result" id="balance">0 دج</span></p>
+</div>
+
+<div class="card">
+<h2>📊 إنجازات اليوم</h2>
+<p id="progress">0%</p>
+<button onclick="saveDay()">💾 حفظ اليوم</button>
+<button onclick="loadDay()">📂 استرجاع اليوم</button>
+<button onclick="resetDay()">🔄 يوم جديد</button>
+<p class="small" id="message"></p>
+</div>
+</div>
+
 <script>
-const KEY='yawm-best-v2';
-const habits=[
-'صلاة الفجر','صلاة الظهر','صلاة العصر','صلاة المغرب','صلاة العشاء',
-'العمل من 09:00 إلى 18:00','النادي الرياضي (إذا كان اليوم تدريباً)',
-'تعلم مهارة 30 دقيقة','الاستحمام وتغيير الملابس بعد العمل',
-'تنظيف الأسنان صباحاً ومساءً','شرب الماء وتناول وجبات جيدة',
-'إبعاد الهاتف قبل النوم والنوم في موعد ثابت'
-];
-const $=id=>document.getElementById(id);
-const now=new Date();
-const keyDate=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
-const today=keyDate(now);
-$('date').textContent=new Intl.DateTimeFormat('ar-DZ',{weekday:'long',year:'numeric',month:'long',day:'numeric'}).format(now);
-let db={};try{db=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){db={}}
-db.days ||= {};
-db.days[today] ||= {checks:[],smokes:0,target:'',bed:'',wake:'',water:'',note:''};
-let day=db.days[today];
-function persist(){localStorage.setItem(KEY,JSON.stringify(db));render()}
-function render(){
- const root=$('tasks');root.innerHTML='';
- habits.forEach((t,i)=>{let label=document.createElement('label');label.className='task';let c=document.createElement('input');c.type='checkbox';c.checked=day.checks.includes(i);c.addEventListener('change',()=>{day.checks=c.checked?[...new Set([...day.checks,i])]:day.checks.filter(x=>x!==i);persist()});let s=document.createElement('span');s.textContent=t;label.append(c,s);root.append(label)});
- let n=day.checks.length,p=Math.round(n/habits.length*100);$('done').textContent=n;$('total').textContent=habits.length;$('percent').textContent=p+'% إنجاز';$('bar').style.width=p+'%';$('smokes').textContent=day.smokes;
- $('target').value=day.target??'';$('bed').value=day.bed??'';$('wake').value=day.wake??'';$('water').value=day.water??'';$('learnnote').value=day.note??'';
- let h=$('historylist');h.innerHTML='';
- for(let i=0;i<7;i++){let d=new Date();d.setDate(d.getDate()-i);let rec=db.days[keyDate(d)];let row=document.createElement('div');row.className='dayrow';let a=document.createElement('span');a.textContent=i===0?'اليوم':new Intl.DateTimeFormat('ar-DZ',{weekday:'long',day:'numeric',month:'short'}).format(d);let b=document.createElement('b');b.textContent=rec?`${rec.checks.length}/${habits.length} مهام • ${rec.smokes} سيجارة`:'لا يوجد تسجيل';row.append(a,b);h.append(row)}
-}
-$('plus').onclick=()=>{day.smokes++;persist()};$('minus').onclick=()=>{day.smokes=Math.max(0,day.smokes-1);persist()};
-$('savehealth').onclick=()=>{day.target=$('target').value;day.bed=$('bed').value;day.wake=$('wake').value;day.water=$('water').value;persist();$('healthstatus').textContent='تم حفظ بيانات اليوم.'};
-$('savenote').onclick=()=>{day.note=$('learnnote').value;persist();$('notestatus').textContent='تم حفظ ملاحظة التعلم.'};
-$('reset').onclick=()=>{if(confirm('هل تريد إعادة ضبط علامات اليوم فقط؟ لن تُحذف سجلات الأيام السابقة.')){day.checks=[];persist()}};
-render();
+const dateInput=document.getElementById('date');
+const today=()=>new Date().toLocaleDateString('en-CA');
+dateInput.value=today();
 
+function fields(){
+ return [...document.querySelectorAll('input[type=checkbox]')];
+}
+function update(){
+ const all=fields();
+ const done=all.filter(x=>x.checked).length;
+ document.getElementById('progress').textContent=
+ Math.round(done/all.length*100)+'% من المهام';
+ const income=Number(document.getElementById('income').value)||0;
+ const expenses=Number(document.getElementById('expenses').value)||0;
+ document.getElementById('balance').textContent=(income-expenses)+' دج';
+}
+function key(){return 'yawmi-'+dateInput.value;}
+function saveDay(){
+ const data={
+ checks:fields().map(x=>x.checked),
+ skill:document.getElementById('skill').value,
+ cigarettes:document.getElementById('cigarettes').value,
+ income:document.getElementById('income').value,
+ expenses:document.getElementById('expenses').value
+ };
+ localStorage.setItem(key(),JSON.stringify(data));
+ document.getElementById('message').textContent='تم حفظ بيانات هذا اليوم على هذا الجهاز ✅';
+}
+function loadDay(){
+ const raw=localStorage.getItem(key());
+ if(!raw){document.getElementById('message').textContent='لا توجد بيانات محفوظة لهذا اليوم';return;}
+ const data=JSON.parse(raw);
+ fields().forEach((x,i)=>x.checked=!!data.checks[i]);
+ document.getElementById('skill').value=data.skill||'';
+ document.getElementById('cigarettes').value=data.cigarettes||'';
+ document.getElementById('income').value=data.income||'';
+ document.getElementById('expenses').value=data.expenses||'';
+ update();
+ document.getElementById('message').textContent='تم استرجاع بيانات اليوم ✅';
+}
+function resetDay(){
+ if(!confirm('هل تريد مسح بيانات هذا اليوم من الشاشة؟'))return;
+ fields().forEach(x=>x.checked=false);
+ ['skill','cigarettes','income','expenses'].forEach(id=>document.getElementById(id).value='');
+ update();
+ document.getElementById('message').textContent='تم تصفير الشاشة. احفظ إذا أردت تسجيل يوم جديد.';
+}
+fields().forEach(x=>x.addEventListener('change',update));
+['income','expenses'].forEach(id=>document.getElementById(id).addEventListener('input',update));
+dateInput.addEventListener('change',loadDay);
+update();
+loadDay();
 </script>
-</body></html>
+</body>
+</html>
